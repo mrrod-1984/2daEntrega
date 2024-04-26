@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Control de Gastos Personales</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Control de Gastos Personales</h1>
+        <div id="total-expense">Total gastado hasta el momento: $0.00</div>
+        <form id="expense-form">
+            <label for="expense-name">Nombre del Gasto:</label>
+            <input type="text" id="expense-name" required>
+
+            <label for="expense-amount">Cantidad Gastada:</label>
+            <input type="text" id="expense-amount" required>
+
+            <label for="expense-date">Fecha del Gasto:</label>
+            <input type="date" id="expense-date" required>
+
+            <button type="submit">Agregar Gasto</button>
+        </form>
+
+        <div id="expense-list">
+            <!-- Lista de gastos -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
