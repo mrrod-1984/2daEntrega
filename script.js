@@ -1,8 +1,21 @@
-// Formatea la cantidad en dólares
+// recuperar los gastos del local storege
+
+window.addEventListener('load', function() {
+    var expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+
+    // Limpiar el ls... es lo unico que me sirvio para que no se duplicara los gastos al recargar la pagina
+    localStorage.removeItem('expenses');
+
+    expenses.forEach(function(expense) {
+        addExpense(expense.name, expense.amount, expense.date, expense.category);
+    });
+});
+
+
+// Formatea la cantidad en dolares
 function formatCurrency(amount) {
     return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
-
 
 // Envía el formulario
 document.getElementById('expense-form').addEventListener('submit', function(event) {
@@ -14,10 +27,10 @@ document.getElementById('expense-form').addEventListener('submit', function(even
     var expenseDate = document.getElementById('expense-date').value;
     var expenseCategory = document.getElementById('expense-category').value;
 
-    // Validar que la cantidad ingresada sea un número
-    if (isNaN(expenseAmount)) {
-    alert('Por favor, ingrese una cantidad válida.');
-    return;
+    // Validar ingreso de datos
+    if (isNaN(expenseAmount) || !expenseName || !expenseDate || !expenseCategory) {
+        alert('Por favor, complete todos los campos correctamente.');
+        return;
     }
 
     // Agregar el gasto a la lista
@@ -32,10 +45,11 @@ document.getElementById('expense-form').addEventListener('submit', function(even
 var totalExpense = 0; 
 
 // Función para agregar un gasto a la lista y actualizar el total
+
 function addExpense(name, amount, date, category) {
     var expenseList = document.getElementById('expense-list');
-
     var expenseItem = document.createElement('div');
+
     expenseItem.classList.add('expense-item');
     expenseItem.innerHTML = `
         <p><strong>Nombre:</strong> ${name}</p>
@@ -51,11 +65,36 @@ function addExpense(name, amount, date, category) {
     totalExpense += amount; 
     document.getElementById('total-expense').textContent = 'Total gastado hasta el momento: ' + formatCurrency(totalExpense);
 
-    // Evento para eliminar el gasto cuando se hace clic en el boton de eliminar
+    // Guardar el gasto en ls como json
+    var expense = {
+        name: name,
+        amount: amount,
+        date: date,
+        category: category
+    };
+
+
+    // Obtener los gastos existentes del lS o si no hay ninguno
+    var expenses = JSON.parse(localStorage.getItem('expenses')) || []; 
+    
+    // Agregar el nuevo gasto al array de gastos
+    expenses.push(expense);
+
+    // Guardar el array de gastos actualizado en lS
+    localStorage.setItem('expenses', JSON.stringify(expenses)); 
+
+
+    // Se eliminar el gasto cuando se hace clic en el boton de eliminar
     expenseItem.querySelector('.delete-btn').addEventListener('click', function() {
-        totalExpense -= amount;
+        
+        // eliminacion del gasto
+        totalExpense -= amount; 
         document.getElementById('total-expense').textContent = 'Total gastado hasta el momento: ' + formatCurrency(totalExpense);
         expenseItem.remove(); 
+
+        // Remover el gasto eliminado del array del LS
+        expenses = expenses.filter(exp => exp !== expense);
+        localStorage.setItem('expenses', JSON.stringify(expenses));
     });
 }
 
