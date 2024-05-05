@@ -12,6 +12,7 @@ document.getElementById('expense-form').addEventListener('submit', function(even
     var expenseName = document.getElementById('expense-name').value;
     var expenseAmount = parseFloat(document.getElementById('expense-amount').value);
     var expenseDate = document.getElementById('expense-date').value;
+    var expenseCategory = document.getElementById('expense-category').value;
 
     // Validar que la cantidad ingresada sea un número
     if (isNaN(expenseAmount)) {
@@ -20,7 +21,7 @@ document.getElementById('expense-form').addEventListener('submit', function(even
     }
 
     // Agregar el gasto a la lista
-    addExpense(expenseName, expenseAmount, expenseDate);
+    addExpense(expenseName, expenseAmount, expenseDate,expenseCategory);
 
     // Limpiar el formulario
     document.getElementById('expense-form').reset();
@@ -31,31 +32,32 @@ document.getElementById('expense-form').addEventListener('submit', function(even
 var totalExpense = 0; 
 
 // Función para agregar un gasto a la lista y actualizar el total
-function addExpense(name, amount, date) {
+function addExpense(name, amount, date, category) {
     var expenseList = document.getElementById('expense-list');
 
     var expenseItem = document.createElement('div');
-    
     expenseItem.classList.add('expense-item');
     expenseItem.innerHTML = `
         <p><strong>Nombre:</strong> ${name}</p>
         <p><strong>Cantidad:</strong> ${formatCurrency(amount)}</p>
         <p><strong>Fecha:</strong> ${date}</p>
+        <p><strong>Categoría:</strong> ${category}</p>
         <button class="delete-btn">Eliminar</button>
     `;
 
     expenseList.appendChild(expenseItem);
 
-    // suma el gasto al total 
+    // Sumar el nuevo gasto al total
     totalExpense += amount; 
-    document.getElementById('total-expense').textContent = 'Total gastado: ' + formatCurrency(totalExpense);
+    document.getElementById('total-expense').textContent = 'Total gastado hasta el momento: ' + formatCurrency(totalExpense);
 
-    // Funcion para eliminar 
+    // Evento para eliminar el gasto cuando se hace clic en el boton de eliminar
     expenseItem.querySelector('.delete-btn').addEventListener('click', function() {
         totalExpense -= amount;
-        document.getElementById('total-expense').textContent = 'Total gastado: ' + formatCurrency(totalExpense);
-        expenseItem.remove();
+        document.getElementById('total-expense').textContent = 'Total gastado hasta el momento: ' + formatCurrency(totalExpense);
+        expenseItem.remove(); 
     });
 }
+
 
 
