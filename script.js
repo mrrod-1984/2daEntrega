@@ -11,6 +11,47 @@ window.addEventListener('load', function() {
     });
 });
 
+// Codigo para añadir API de cotizacion del dolar actual
+
+// direccion url de la API
+const apiUrl = 'https://mindicador.cl/api/dolar';
+
+// Función para obtener el valor del dolar
+function obtenerValorDolar() {
+    return fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo obtener el valor del dólar.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data.serie[0].valor; 
+        })
+        .catch(error => {
+            console.error('Error al obtener el valor del dólar:', error);
+            return null;
+        });
+}
+
+
+
+// Función para el DOM
+function mostrarValorDolar() {
+    obtenerValorDolar()
+        .then(valorDolar => {
+            if (valorDolar !== null) {
+                document.getElementById('valor-dolar').textContent = 'Valor del dólar hoy: ' + valorDolar.toFixed(2) + ' CLP';
+            } else {
+                document.getElementById('valor-dolar').textContent = 'No se pudo obtener el valor del dólar.';
+            }
+        });
+}
+
+// Llamar a la funcion del dolar
+mostrarValorDolar();
+
+
 
 // Formatea la cantidad en dolares
 function formatCurrency(amount) {
