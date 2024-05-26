@@ -12,13 +12,13 @@
         <div id="valor-dolar">Dolar</div>
         <form id="expense-form">
             <label for="expense-name">Nombre del Gasto:</label>
-            <input type="text" id="expense-name" required>
+            <input type="text" id="expense-name">
 
             <label for="expense-amount">Cantidad Gastada:</label>
-            <input type="text" id="expense-amount" required>
+            <input type="text" id="expense-amount">
 
             <label for="expense-category">Categoría del Gasto:</label>
-            <select id="expense-category" required>
+            <select id="expense-category">
                 <option value="comida">Comida</option>
                 <option value="transporte">Transporte</option>
                 <option value="entretenimiento">Entretenimiento</option>
@@ -26,7 +26,7 @@
                 </select>
 
             <label for="expense-date">Fecha del Gasto:</label>
-            <input type="date" id="expense-date" required>
+            <input type="date" id="expense-date">
 
             <button type="submit">Agregar Gasto</button>
         </form>
@@ -35,7 +35,7 @@
             <!-- Lista de gastos -->
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
 </body>
 </html>

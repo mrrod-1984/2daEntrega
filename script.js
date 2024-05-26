@@ -70,7 +70,11 @@ document.getElementById('expense-form').addEventListener('submit', function(even
 
     // Validar ingreso de datos
     if (isNaN(expenseAmount) || !expenseName || !expenseDate || !expenseCategory) {
-        alert('Por favor, complete todos los campos correctamente.');
+        Swal.fire({
+            title: "Falló la validación",
+            text: "Favor ingresar datos faltantes",
+            icon: "error"
+            });
         return;
     }
 
